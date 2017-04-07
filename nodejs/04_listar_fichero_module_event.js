@@ -20,6 +20,7 @@ module.exports = function(directorio, extension) {
     }
     fs.readdir(directorio, funCallbackReadDir);
 }
+
 module.exports.on = function(nombreEvento, funcionCallBack) {
     miEmisor.on(nombreEvento, funcionCallBack);
 }
