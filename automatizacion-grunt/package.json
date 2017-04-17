@@ -1,0 +1,19 @@
+{
+  "name": "03-grunt-prueba",
+  "version": "0.0.1",
+  "description": "pruebas con automatizacion",
+  "main": "gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@idaniel",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "grunt": "1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "jshint": "^2.9.4",
+    "uglify-js": "^2.8.22"
+  }
+}
