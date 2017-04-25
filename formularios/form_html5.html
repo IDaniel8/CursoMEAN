@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./styles.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script>
+            function validarCampos(formulario){
+                let nombre_regex = /([a-zA-ZñÑ]{3,}|German)/;
+                let telef_regex = /^\d{1,9}$/;
+                let dni_regex = /^\d{8}[a-zA-Z]$/; 
+
+                if(nombre_regex.test(formulario.nombre.value) == false){
+                    alert("Campo de nombre no valido");
+                    return false;
+                }else if(telef_regex.test(formulario.telefono.value) == false){
+                    alert("Campo de telefono no valido");
+                    return false;
+                }else if(dni_regex.test(formulario.dni.value) == false){
+                    alert("Campo de dni no valido");
+                    return false;
+                }
+                return true;
+            }
+        </script>
+    </head>
+    <body>
+        <form id="miForm" action="#" onsubmit="validarCampos(this)">
+            
+            <!--Ejercicio-->
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre"><br><br>
+
+            <label for="telefono">Telefono:</label>
+            <input type="tel" id="telefono"><br><br>
+
+            <label for="dni">DNI:</label>
+            <input type="text" id="dni"><br><br>
+            
+            
+            <!--<label for="nombre">Nombre:</label>
+            <input type="text" id="nombre"><br><br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required><br><br>
+            <label>Color:</label>
+            <input type="color" id="color"><br><br>
+            <label for="url">URL:</label>
+            <input type="url" id="url"><br><br>
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" max="100" min="0"><br><br>
+            <label for="rango">Rango:</label>
+            <input type="range" id="rango" max="50" min="-50" step="10"><br><br>
+
+
+            <p>Lista de Cafes: <input type="text" list="cafes" value=""></p>
+            <datalist id="cafes">
+                <option value="cafe ligero"></option>
+                <option value="cafe obscuro"></option>
+                <option value="cafe cortado"></option>
+                <option value="cafe mocaccino"></option>
+            </datalist><br><br>
+
+
+            <p>Fecha: <input type="date" id="date"></p>
+            <p>Hora: <input type="time" id="time"></p>
+            <p>Fecha y Hora: <input type="datetime-local" id="time"></p>
+            <p>Mes: <input type="month" id="month"></p>
+            <p>Semana: <input type="week" id="week"></p>
+            <p>Telefono: <input type="tel" id="tel"></p>
+            -->
+            
+            <p>Search icon: <i class="glyphicon glyphicon-euro"></i></p>
+                     
+
+            
+            <input type="submit" value="enviar">
+        </form>
+   
+    </body>
+</html>
