@@ -1,0 +1,70 @@
+<html>
+
+<head></head>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+
+//document.ready
+$(function (){
+    pruebas();
+});
+
+function pruebas(){
+
+    $("h2"); //Nos devuelve un objeto jQuery con todos los nodos h2 de la página
+
+    //Este es más específico
+    $("[id^=color-]");
+
+    //Y este más específico aun
+    $("h2[id^=color-]");
+    
+    //Función 'each'. Definimosuna función que pasamos por parámetro
+    //y jquery se encarga de invocarla para cada nodo de la lista
+    $("h2[id^=color-]").each(function(){
+        //En esta función 'this' es el nodo obtenido del resultado
+        console.log(this.innerHTML);
+       
+        //this.text("HOLA"); Esto falla porque this es un nodo normal
+        //del árbol DOM
+
+        //Si le pasamos a la función $ un nodo lo extiende añadiendole
+        //todas las funciones de jQuery
+        let nodoExtendido = $(this);
+        console.log(nodoExtendido.text());
+        
+        let texto = nodoExtendido.text();
+        if( texto == 'Rojo'){
+            nodoExtendido.css("color","red");
+        } else if( texto == 'Verde'){
+            nodoExtendido.css("color","green");
+        } else if( texto == 'Azul'){
+            nodoExtendido.css("color","blue");
+        } else if( texto == 'Amarillo'){
+            nodoExtendido.css("color","yellow");
+        } else if( texto == 'Fabada'){
+            nodoExtendido.css("color","#FABADA");
+        } 
+
+        //si la función devuelve false se detiene el bucle
+
+    });
+
+}
+
+</script>
+
+<body>
+
+<h1>JQuery for each</h1>
+
+    <h2 id="color-1">Rojo</h2>
+    <h2 id="color-2">Verde</h2>
+    <h2 id="color-3">Azul</h2>
+    <h2 id="color-4">Amarillo</h2>
+    <h2 id="color-5">Fabada</h2>
+
+</body>
+
+</html>

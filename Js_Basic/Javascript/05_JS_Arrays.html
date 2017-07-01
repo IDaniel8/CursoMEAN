@@ -1,0 +1,125 @@
+<html>
+
+<head>
+</head>
+
+<script type="text/javascript">
+
+//Un array de javascript NO ES un array clásico
+//Un array es un objeto
+//No tiene un tamaño fijo
+var array = [];
+var array1 = [1,2,3,4,5];
+//Pueden guardar cualquier tipo
+var array2 = [10,"20",30.5,true,"tocotó"];
+
+//Accediendo a las posiciones de un array
+console.log(array2[4]); 
+console.log(array2[400000]); //No falla: devuelve undefined
+
+//Tiene propiedades y funciones (porque esun objeto)
+console.log("Número de elementos de un array:"+array1.length);
+//Funciones para utilizar un array como una cola FIFO
+console.log(array1);
+array1.push(6); //Añade el 6 al final
+console.log(array1);
+var primerElemento = array1.shift(); //Elimina el primero
+console.log(array1);
+var ultimoElemento = array1.pop();   //Elimina el ultimo
+console.log(array1);
+
+//Tambien podemos crear el array con un new pero no se recomienda
+var array3 = new Array();
+var array4 = new Array( 11,22,33 );
+
+//Añadiendo valores despues de la creacion
+array4[3] = 44;
+console.log(array4.length+":"+array4);
+array4[10] = 55;
+console.log(array4.length+":"+array4);
+
+//Arays asociativos
+var array5 = []; //Esto es un array
+array5[0] = 111;
+array5[1] = 222; //Hasta aqui sigue siendo un array
+//En el momento en el que usamos una clave no numérica el array se convierte
+//en un array asociativo 
+array5["marca"] = "Ford";                     
+array5["modelo"] = "Focus";
+array5["saludar"] = function(){ alert("PI PI"); };
+
+//Cuando definamos nuestros propios objetos usaremos arrays asociativos
+//Un array asociativo no está indexado
+console.log("=========================================");
+console.log(array5.length); //Las funciones de array tienen un resultado impredecible 
+                            //si se transforma en un array asociativo 
+console.log(array5["marca"]); //Dos maneras de acceder al valor asociado a una clave
+console.log(array5.modelo);   //Esta es más 'orientada a objetos'
+
+//Recorriendo arrays
+
+//Con un for normal
+console.log("=========================================");
+var array6 = [ 11,22,33,44,55,66,77,88,99 ];
+for(escort=0; escort<array6.length; escort++){
+    console.log(array6[escort]);
+}
+
+//Con un for each
+//No es muy eficiente
+console.log("=========================================");
+array6.forEach( function(elem){
+        console.log(":"+elem);
+    } );
+//
+var funcion = function(elem){
+    console.log("::"+elem);
+};
+array6.forEach(funcion);
+//Esto va más rápido pero nos da igual
+for(transit=0; transit<array6.length; transit++){
+    funcion(array6[transit]);
+}
+
+//La funcion forEach asi como recorrer un array con un for
+//solo funciona con arrays, no con arrays asociativos
+var array7 = new Array();
+array7["nombre"]="Bart";
+array7["direccion"]="C/Evergreen Terrace";
+array7["telefono"]="555";
+
+//Si tenemosclaro que vamos a crear un array asociativo esta sintaxis
+//es la más adecuada
+var array7bis = { "nombre"    : "Bender",
+                  "direccion" : "NNY",
+                  "telefono"  : "555" };
+console.log("=========================================");
+array7.forEach(function(elem){
+        console.log(":"+elem);
+    } );
+
+//Para extraer los valores de un array asociativo debemos usar
+//un for-in
+//for(clave in array/(arrayAsociativo/object))
+for(let clave in array7bis){
+    console.log("Clave:"+clave+", valor:"+array7bis[clave]);
+}
+
+//Recorriendo un array con un for in
+//Recordemos que array4 tiene un 'hueco' entre las posiciones 5 y 10
+//For in solo nos muestra las posiciones que tienen un valor
+for(let clave in array4){
+    console.log("="+array4[clave]);
+}
+
+
+
+</script>
+
+<body>
+
+    <h1>Arrays</h1>
+
+</body>
+
+</html>

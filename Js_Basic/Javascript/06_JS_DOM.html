@@ -1,0 +1,152 @@
+<html>
+
+<head></head>
+
+<script type="text/javascript">
+
+//En javascript disponemos del objeto 'document' que representa
+//al árbol DOM
+
+//No podemos acceder al arbol DOM desde código JS que está fuera de una
+//función. Tal código se ejecuta antes de que el navegador cree el
+//árbol DOM
+console.log(document.getElementById("nombre"));
+
+function pruebasDOM(){
+    console.log("=======================================");
+    let nodo = document.getElementById("nombre");
+    console.log(nodo);
+    console.log(typeof nodo);
+    //Los nodos del árbol son objetos JS con muchas propiedades y funciones
+    for(let clave in nodo){
+        console.log("c:"+clave+", v:"+nodo[clave]);
+    }
+
+    //Devuelve el nodo cuyo name es el indicado 
+    document.getElementsByName("name");
+    //Devuelve un array de nodos del tipo indicado.Por ejemplo: nodos
+    //del tipo 'input'
+    document.getElementsByTagName("etiqueta");
+    //Devuelve un array de nodos que tienen asignado cierto estilo css
+    document.getElementsByClassName("estilo");
+
+    //Esta función no es para trabajar con el árbol DOM
+    //Se usa para leer XML 
+    //document.getElementsByTagNameNS("etiqueta xml");
+
+    //Propiedades de los nodos
+    nodo = document.getElementById("nombre");
+    console.log(nodo.value);
+    var valor = document.getElementById("nombre").value;
+    console.log(typeof nodo);
+    console.log(typeof valor);
+
+    //Árbol DOM
+    console.log("=====================================");
+    let formulario = document.getElementById("formulario");
+    console.log(formulario);
+    //Los nodos tienen un array de hijos
+    //Este array es una PROPIEDAD
+    let hijos = formulario.childNodes;
+    for(let a=0; a<hijos.length; a++){
+        console.log("Hijo:"+hijos[a]);
+    }
+
+}
+
+function validar(){
+
+    if(document.getElementById("nombre2").value.trim() == ""){
+        alert("El nombre es obligatorio");
+    }
+    if(document.getElementById("direccion").value.trim() == ""){
+        alert("La dirección es obligatoria");
+    }
+    if(document.getElementById("telefono").value.trim() == ""){
+        alert("El teléfono es obligatorio");
+    }
+
+    let formulario = document.forms.formulario; //aqui nos referimos al 'name'
+    formulario = document.getElementById("formulario");
+    console.log(formulario.nombre.value);
+    console.log(formulario.direccion.value);
+    console.log(formulario.telefono.value);
+
+    with(formulario){
+        console.log(nombre.value);
+        console.log(direccion.value);
+        console.log(telefono.value);
+    }
+
+    let persona = { "nombre":"M.A. Baracus", 
+                    "direccion":"La furgo",
+                    "hablar": function(){
+                        alert("Yo no vuelo con ese loco!");
+                    }};
+    with(persona){
+        console.log(nombre);
+        console.log(direccion);
+        hablar();
+    }
+    
+}
+
+function prepararParametros(){
+
+    console.log("==================================");
+    let nodos = document.getElementsByTagName("input");
+    let parametros = "";
+    for(let a=0; a<nodos.length; a++){
+        let nodo = nodos[a];
+        console.log(nodo.name);
+        //if(nodo.type == "text"){
+        if(nodo.name.trim() != ""){
+            console.log(nodos[a]);
+            //parametros.concat(nodo.name,"=",nodo.value,"&");
+            parametros = parametros + nodo.name + "=" + nodo.value + "&";
+        }
+    }
+    parametros = parametros.substring(0, parametros.length-1);
+    alert(parametros);
+    return parametros;
+}
+
+
+</script>
+
+<body onload="pruebasDOM()">
+
+    <h1>Ejemplo del árbol DOM</h1>
+
+    Nombre: <input type="text" name="nombre" id="nombre" size="25" value="texto"/>
+
+    <hr/>
+
+    <form name="formulario" id="formulario" action="#" method="get">
+        <input type="button" name="accion" value="Enviar" onclick="validar()"/>
+        <input type="button" value="Preparar parametros" onclick="prepararParametros()"/>
+        <table>
+            <tr>
+                <td>Nombre</td>
+                <td>
+                    <input type="text" name="nombre" id="nombre2"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Dirección</td>
+                <td>
+                    <input type="text" name="direccion" id="direccion"/>
+                </td>
+            </tr>
+            <tr>
+                <td>Teléfono</td>
+                <td>
+                    <input type="text" name="telefono" id="telefono"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</body>
+
+</html>

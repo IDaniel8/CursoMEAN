@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+   <head>
+        <meta charset="UTF-8">
+        <title>Table_Smart</title>
+        <link rel="stylesheet" href="mystyle.css">
+        <script type="text/javascript">
+            
+            function onRegisterPressed () {
+                
+                let firstName = document.getElementById("firstname").value;
+                let lastName = document.getElementById("lastname").value;
+                let rollnum = document.getElementById("rollnum").value;
+                let subject = document.getElementById("subject").value;
+                
+                let table = document.getElementById("regtable");
+                let row = table.insertRow();
+                let firstNameCell = row.insertCell(0);
+                let lastNameCell = row.insertCell(1);
+                let rollnumCell = row.insertCell(2);
+                let subjectCell = row.insertCell(3);
+                
+                firstNameCell.innerHTML = firstName;
+                lastNameCell.innerHTML = lastName;
+                rollnumCell.innerHTML = rollnum;
+                subjectCell.innerHTML = subject;
+                
+                //clear fields
+                document.getElementById("firstname").value = "";
+                document.getElementById("lastname").value = "";
+                document.getElementById("rollnum").value = "";
+                document.getElementById("subject").value = "";
+
+                
+            };
+       
+       </script>
+   </head>
+
+   
+   <body>
+      
+      <div class="container">
+          <header class="headerbar top"><h1>Registration</h1></header>
+          <aside class="leftbar">
+              <div>
+               
+                <fieldset>
+                    <div for="firstname">First Name</div>
+                    <input type="text" placeholder="enter first name"id="firstname"/>
+                </fieldset>
+                <fieldset>
+                    <div for="lastname">Last Name</div>
+                    <input type="text" placeholder="enter last name"id="lastname"/>
+                </fieldset>
+                <fieldset>
+                    <div for="rollnum">Roll Number</div>
+                    <input type="text" placeholder="enter roll number"id="rollnum"/>
+                </fieldset>
+                <fieldset>
+                    <div for="subject">Subject</div>
+                    <select id="subject">
+                        <option value="math">Math</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="english">English</option>
+                    </select>
+                </fieldset>
+                <fieldset>
+                    <button id="submit" onclick="onRegisterPressed()">Register</button>
+                </fieldset>
+                
+              </div>
+          </aside>
+          <aside class="rightbar">
+                 
+                 <table>
+                      <thead>
+                          <tr>
+                              <th>First Name</th>
+                              <th>Last Name</th>
+                              <th>Roll Number</th>
+                              <th>Subject</th>
+                          </tr>
+                      </thead>
+                      <tbody id="regtable">
+                      </tbody>
+                  </table>
+            
+          </aside>
+          <footer class="headerbar bottom"></footer>
+      </div>
+       
+   </body>
+</html>

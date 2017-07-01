@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+    <script type="text/javascript">
+        //definir el prototipo pelicula
+        //id
+        //titulo
+        //director
+        //genero
+        
+        //array global a la pagina que guarda la lista de peliculas
+        window.onload = function (){
+            
+            let peliculas = [];
+            let datos = document.getElementById("datos");
+            let pos = 0;
+            
+            let titulo = document.getElementById("titulo");
+            let director = document.getElementById("director");
+            let genero = document.getElementById("genero");
+            
+            let error1 = document.getElementById("error1");
+            let error2 = document.getElementById("error2");
+            let error3 = document.getElementById("error3");
+            
+            function comprobar () {
+                
+                if(titulo.value.trim().length == 0){
+                    error1.innerHTML = "Obligatorio!!";
+                    return false;
+                }
+                else if(director.value.trim().length == 0){
+                    error2.innerHTML = "Obligatorio!!";
+                    return false;
+                }
+                else if(genero.value == "seleccione . . ."){
+                    error3.innerHTML = "Seleccione una!";
+                    return false;
+                }
+                
+                return true;
+            }
+            
+            
+            document.getElementById("insertar").onclick = function(){
+                
+                error1.innerHTML = "";
+                error2.innerHTML = "";
+                error3.innerHTML = "";
+                
+                if(!comprobar()){
+                    return;
+                }
+                
+                let pelicula = {
+                    titulo: titulo.value,
+                    director: director.value,
+                    genero: genero.value 
+                };
+                
+                peliculas[pos] = pelicula;
+                
+                let tr = document.createElement("tr");
+                let td1 = document.createElement("td");
+                let td2 = document.createElement("td");
+                let td3 = document.createElement("td");
+                let td4 = document.createElement("td");
+                
+                td4.setAttribute("hidden", true);
+                td4.innerHTML = pos;
+                td1.innerHTML = pelicula.titulo;
+                td2.innerHTML = pelicula.director;
+                td3.innerHTML = pelicula.genero;
+                
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                 
+                datos.appendChild(tr);
+               
+                titulo.value = "";
+                director.value = "";
+                genero.value = "";
+                pos++;
+                
+                console.log(peliculas);
+            };
+            
+            
+            let listener = datos.addEventListener("click", function(event){
+               
+                let tr = event.target.parentNode;
+                titulo.value = tr.childNodes[0].innerHTML;
+                director.value = tr.childNodes[1].innerHTML;
+                genero.value = tr.childNodes[2].innerHTML;
+                
+                document.getElementById("modificar").onclick = function(){
+                
+                    let pelicula = {
+                        titulo: titulo.value,
+                        director: director.value,
+                        genero: genero.value 
+                    };
+                        
+                    peliculas[tr.childNodes[3].innerHTML] = pelicula;
+
+                    tr.childNodes[0].innerHTML = pelicula.titulo;
+                    tr.childNodes[1].innerHTML = pelicula.director;
+                    tr.childNodes[2].innerHTML = pelicula.genero;
+                    
+                    titulo.value = "";
+                    director.value = "";
+                    genero.value = "";
+                    
+                    console.log(peliculas);
+                };
+                
+                document.getElementById("borrar").onclick = function(){
+                    delete peliculas[tr.childNodes[3].innerHTML];
+                    for(let a=0; a < peliculas.length; a++){
+                        peliculas[a] = peliculas[a+1];
+                    }
+                    peliculas.length = --pos;
+                    datos.removeChild(tr);
+                    
+                    console.log(peliculas);
+                };
+                
+            });
+           
+            document.getElementById("vaciar").onclick = function(){
+                for (let pelicula in peliculas) {
+                    if (peliculas.hasOwnProperty(pelicula)) {
+                        delete peliculas[pelicula];
+                    }
+                }
+                peliculas.length = 0;
+                pos = 0;
+                while (datos.firstChild) {
+                    datos.removeChild(datos.firstChild);
+                }
+                console.log(peliculas);
+            };
+            
+            
+            
+            
+           
+            
+            
+        }
+    </script>   
+   
+   
+   
+   
+   <body>
+        <div align="center">
+            <input id="insertar" type="button" value="Insertar"/>
+            <input id="modificar" type="button" value="Modificar"/>
+            <input id="borrar" type="button" value="Borrar"/>
+            <input id="vaciar" type="button" value="Vaciar"/>
+        </div>
+        <br>
+        
+        <div align="center">
+            <label for="titulo">Titulo</label> 
+            <input id="titulo" type="text" placeholder>
+            <label style="color:red;" id="error1"></label>
+            <br><br>
+            
+            <label for="director">Director</label> 
+            <input id="director" type="text" placeholder>
+            <label style="color:red;" id="error2"></label>
+            <br><br>
+            
+            <label for="genero">Genero</label>
+            <select id="genero">
+                <option>seleccione . . .</option>
+                <option>SyFy</option>
+                <option>Horror</option>
+                <option>MuerteYDestruccion</option>
+            </select> 
+            <label style="color:red;" id="error3"></label>
+        </div>
+        <br>
+        
+        <table id="tabla" align="center" border="1">
+            <tr>
+                <th>Titulo</th>
+                <th>Director</th>
+                <th>Genero</th>
+            </tr>
+            <tbody id="datos"></tbody>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,51 @@
+<html>
+
+<head></head>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+
+//document.ready
+$(function (){
+    pruebas();
+});
+
+function insertar(){
+    //...
+    //
+    alert("Que poquito falta");
+}
+
+function pruebas(){
+
+    $("#btnInsertar").click(function (){
+        insertar();
+    });
+    //El mismo resultado
+    $("#btnInsertar").click(insertar);
+
+    $("#btnDale").click(function(evento){
+        alert("Click en submit");
+        //Podemos cancelar el evento en cualquier momento (pero esto
+        //es JS mondo y lirondo)
+        evento.preventDefault();
+    });
+
+}
+
+</script>
+
+<body>
+
+    <h1>JQuery eventos</h1>
+
+    <p>
+        <form action="XXX">
+            <input type="submit" value="Dale" id="btnDale"/>
+            <input type="button" value="Insertar" id="btnInsertar"/>
+        </form>
+    </p>
+
+</body>
+
+</html>

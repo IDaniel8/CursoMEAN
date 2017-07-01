@@ -1,0 +1,153 @@
+<html>
+
+<head></head>
+
+<script type="text/javascript">
+
+//Una función es un objeto
+//Una funcion puede definir el prototipo objeto
+
+//CREANDO UN PROTOTIPO
+//Creamos un prototipo de Cliente definiendo una función
+//Le añadimos las propiedades 'públicas'
+function Cliente(){
+    //Añadimos las propiedades alobjeto deltipo funcion que se llama 'Cliente' 
+    this.nombre    = "";
+    this.direccion = "";
+    this.telefono  = "";
+}
+
+//CREANDO OBJETOS A PARTIR DEL PROTOTIPO
+//Para crear un nuevo objeto usando el prototipo usamos 'new'
+let c1 = new Cliente();
+c1.nombre    = "Bart J Simpson";
+c1.direccion = "C/Evergreen Terrace";
+c1.telefono  = "555";
+console.log("c1:"+c1.nombre);
+console.log("c1:"+c1.direccion);
+console.log("c1:"+c1.telefono);
+//Creamos otro objeto
+let c2 = new Cliente();
+c2.nombre    = "Philip J Fry";
+console.log("c2:"+c2.nombre);
+console.log("c1:"+c1.nombre);
+
+//AÑADIENDO FUNCIONES
+//Con prototype añadimos una funcion a un objeto concreto de tal
+//manera que todos los otros objetos construidos a partir de el 
+//lo tienen (incluso aunque se hayan creado antes de añadir la funcion)
+console.log("====================================");
+Cliente.prototype.imprimirDatos = function(){
+    console.log(this.nombre+","+this.direccion+","+this.telefono);
+}
+c1.imprimirDatos();
+c2.imprimirDatos();
+
+//Tambien podemos añadir una funcion a un objeto concreto
+c2.saltar = function(){
+    console.log("Soy "+this.nombre+" y salto");
+}
+
+c2.saltar();
+//c1.saltar(); c1 no tiene la funcion saltar
+
+//'CONTRUCTORES'
+//Podemos aprovechar que las funciones reciben parametros para
+//obtener un constructor (y solo uno)
+function Coche(marca, modelo, matricula) {
+    this.marca = marca;
+    this.modelo = modelo;
+    this.matricula = matricula;
+}
+
+let ch1 = new Coche();
+let ch2 = new Coche("Renault","5","M-1234-BC");
+console.log("ch2:"+ch2.marca);
+
+//FUNCIONES DEFINIDAS DENTRO DEL PROTOTIPO
+function Libro(titulo, autor){
+    this.titulo = titulo;
+    this.autor  = autor;
+
+    //Todoslos objetos creados apartir de un prototipo tienen
+    //una COPIA de las funciones declaradas dentro de el
+    //(a diferencia de funciones declaradas con Funcion.prototype.x)
+
+    //Funciones 'privadas'
+    function x(){
+        alert("X");
+    };
+
+    //Funciones 'publicas'
+    this.imprimir = function (){
+        alert("imprimir");
+        x();
+    };
+}
+
+let l1 = new Libro("El Quijote", "Cervantes");
+l1.imprimir();
+//l1.x(); //ZASCA!
+
+//PROPIEDADES 'PRIVADAS'
+function Avion(){
+    //Propiedad pública: se usa 'this'
+    this.fabricante = "";
+    //Propiedad 'privada': nose usa 'this'
+    let modelo = ""; //o con 'var'
+    
+    //Si queremos controlar el acceso a la propiedad privada
+    //añadiremos funciones accesoras
+    //(en realidad hablamos del Encapsulamiento)
+    this.setModelo = function(_modelo){
+        modelo = _modelo;
+    };
+    this.getModelo = function(){
+        return modelo;
+    };
+}
+
+let a1 = new Avion();
+a1.fabricante = "Airbus";
+a1.setModelo("A380");
+console.log("a1:"+a1.fabricante+", "+a1.getModelo());
+console.log(a1.modelo); //undefined
+
+//PROPIEDADES 'ESTÁTICAS'
+//En JS no existe la palabra reservada 'static'
+
+function Animal(nombre){
+    //Propiedades 'estáticas'
+    //Se añaden a la funcion (la función es un objeto)
+    //Si no ponemos este if contador se redefinirá cada vez que
+    //hagamos un new Animal()
+    if(typeof Animal.contador == 'undefined'){
+        Animal.contador = 0;
+    }
+    Animal.contador = Animal.contador+1;
+    //alert("ANIMAL:"+Animal.contador);
+
+    //Propiedades 'publicas'
+    this.nombre = nombre;
+    this.peso   = 0;
+    //Propiedades 'privadas'
+    var x = "";
+}
+//Podemos tambien añadir propiedades'estáticas' a posteriori
+Animal.datoEstatico = 0;
+
+animal1 = new Animal("animal1");
+animal2 = new Animal("animal2");
+animal3 = new Animal("animal3");
+console.log(animal1.nombre);
+console.log(animal1.contador); //Undefined
+//Para acceder a la propiedad estática usamos el nombre de la función
+console.log("Contador:"+Animal.contador);
+
+</script>
+
+<body>
+
+</body>
+
+</html>

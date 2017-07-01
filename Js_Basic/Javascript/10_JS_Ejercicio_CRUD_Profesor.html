@@ -1,0 +1,230 @@
+<html>
+
+</head></head>
+
+<script>
+
+//Array global a la página que guarda la lista de peliculas
+let peliculas = [];
+let idPeliculaSel = null;
+
+//Prototipo de Pelicula////////////////////////////////////
+function Pelicula(titulo,director, genero){
+    Pelicula.contador++;
+
+    this.id = Pelicula.contador;
+    this.titulo   = titulo;
+    this.director = director;
+    this.genero   = genero;
+}
+Pelicula.contador = 0;
+Pelicula.prototype.imprimirConsola = function(){
+    alert(2);
+}
+///////////////////////////////////////////////////////////
+
+p1 = new Pelicula("2001","SK","CiFi");
+p2 = new Pelicula("Alien","RS","CiFi");
+p3 = new Pelicula("El jovencito Frankenstein","MB","Comedia");
+p4 = new Pelicula("Don Erre que Erre","X","Mucha risa");
+peliculas.push(p1);
+peliculas.push(p2);
+peliculas.push(p3);
+peliculas.push(p4);
+
+function rellenarTabla(){
+    let tabla = document.getElementById("tablaPeliculas");
+
+    tabla.innerHTML = "";
+
+    for(let a=0; a<peliculas.length; a++){
+        let p = peliculas[a];
+
+        let tr = document.createElement("tr");
+        tr.setAttribute("id", p.id);
+
+        let td1 = document.createElement("td");
+        let td2 = document.createElement("td");
+        let td3 = document.createElement("td");
+        let txt1 = document.createTextNode(p.titulo);
+        let txt2 = document.createTextNode(p.director);
+        let txt3 = document.createTextNode(p.genero);
+
+        td1.appendChild(txt1);
+        td2.appendChild(txt2);
+        td3.appendChild(txt3);
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+
+        tr.onclick = function(){
+            seleccionarPelicula(this.id);
+        }
+
+        tabla.appendChild(tr);
+    }
+}
+
+function buscarPelicula(id){
+    let pelicula = null;
+    for(let a=0; a<peliculas.length; a++){
+        let p = peliculas[a];
+        if( p.id == id){
+            pelicula = p;
+            break;
+        }
+    }
+    return pelicula;
+}
+
+function seleccionarPelicula(id){
+    pelicula = buscarPelicula(id);
+
+    idPeliculaSel = id;
+    document.getElementById("titulo").value   = pelicula.titulo;
+    document.getElementById("director").value = pelicula.director;
+    document.getElementById("genero").value   = pelicula.genero;   
+}
+
+function vaciarFormulario(){
+    idPeliculaSel = null;
+    document.getElementById("titulo").value   = "";
+    document.getElementById("director").value = "";
+    document.getElementById("genero").value   = "";    
+}
+
+function validarFormulario(titulo, director, genero){
+    let ok = true;
+    document.getElementById("msjTitulo").innerHTML = "";
+    document.getElementById("msjDirector").innerHTML = "";
+    document.getElementById("msjGenero").innerHTML = "";
+    if(titulo.trim().length == 0){
+        document.getElementById("msjTitulo").innerHTML = "Obligatorio";
+        ok = false;
+    } 
+    if(director.trim().length == 0){
+        document.getElementById("msjDirector").innerHTML = "Obligatorio";
+        ok = false;
+    }
+    return ok;
+}
+
+function insertarPelicula(){
+    let titulo   = document.getElementById("titulo").value;
+    let director = document.getElementById("director").value;
+    let genero   = document.getElementById("genero").value;
+
+    if(!validarFormulario(titulo, director, genero)){
+        return;
+    }
+
+    let p = new Pelicula(titulo, director, genero);
+    peliculas.push(p);
+    rellenarTabla();
+}
+
+function modificarPelicula(){
+    let titulo   = document.getElementById("titulo").value;
+    let director = document.getElementById("director").value;
+    let genero   = document.getElementById("genero").value;
+
+    if(!validarFormulario(titulo, director, genero)){
+        return;
+    }
+
+    let pelicula = buscarPelicula(idPeliculaSel);
+    
+    pelicula.titulo = titulo;
+    pelicula.director = director;
+    pelicula.genero = genero;
+
+    rellenarTabla();
+}
+
+function borrarPelicula(){
+    let posicion;
+    for(posicion=0; posicion<peliculas.length; posicion++){
+        if( peliculas[posicion].id == idPeliculaSel){
+            break;
+        }
+    }
+    peliculas[posicion] = null;
+    for(let a=posicion; a<peliculas.length; a++){
+        peliculas[a] = peliculas[a+1];
+    }
+    //Viva la Pepa:
+    peliculas.length = peliculas.length-1;
+    rellenarTabla();
+}
+
+window.onload = function(){
+
+    let btnInsertar = document.getElementById("btnInsertar");
+    btnInsertar.onclick = function (){
+        insertarPelicula();
+    }
+
+    let btnModificar = document.getElementById("btnModificar");
+    btnModificar.onclick = function (){
+        modificarPelicula();
+    }
+
+    let btnBorrar = document.getElementById("btnBorrar");
+    btnBorrar.onclick = function (){
+        borrarPelicula();
+    }
+
+    let btnVaciar = document.getElementById("btnVaciar");
+    btnVaciar.onclick = function (){
+        vaciarFormulario();
+    }
+
+    rellenarTabla();
+};
+
+</script>
+
+<body>
+
+    <h1>Películas</h1>
+
+    <p>
+        <input type="button" id="btnInsertar"  value="Insertar"/> 
+        <input type="button" id="btnModificar" value="Modificar"/> 
+        <input type="button" id="btnBorrar"    value="Borrar"/> 
+        <input type="button" id="btnVaciar"    value="Vaciar"/> 
+    </p>
+
+    <label for="titulo">Título</label>
+    <input type="text" id="titulo"/>
+    <span id="msjTitulo"></span>
+    <br/>
+
+    <label for="director">Director</label>
+    <input type="text" id="director"/>
+    <span id="msjDirector"></span>
+    <br/>
+
+    <label for="genero">Genero</label>
+    <select id="genero">
+        <option value="">Seleccione...</option>
+        <option>CiFi</option>
+        <option>Comedia</option>
+        <option>Accion</option>
+        <option>Del oeste</option>
+    </select>
+    <span id="msjGenero"></span>
+    <br/>
+
+    <table border="1">
+        <tr>
+            <th>Título</th>
+            <th>Director</th>
+            <th>Género</th>
+        </tr>
+        <tbody id="tablaPeliculas"></tbody>
+    </table>
+
+</body>
+
+</html>

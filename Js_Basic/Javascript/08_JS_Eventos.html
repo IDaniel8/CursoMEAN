@@ -1,0 +1,60 @@
+<html>
+
+<head></head>
+
+<script type="text/javascript">
+
+function botonPulsado(){
+    alert("HOLA");
+}
+
+function validarFormulario(evento){
+    alert("Validando...");
+    //Cancelamos el evento
+    evento.preventDefault();
+}
+
+//window.onload();
+
+/*Esto funciona:
+var funcion = function(){
+    alert("on load");
+};
+window.onload = funcion;
+*/
+
+window.onload = function(){
+    console.log("On load");
+
+    let boton = document.getElementById("boton");
+    boton.onclick = function(){
+        botonPulsado();
+    };
+
+    let enviar = document.getElementById("enviar");
+    enviar.onclick = function(evento){        
+        console.log(evento);        
+        validarFormulario(evento);
+    };
+
+};
+
+</script>
+
+<body>
+
+    <h1 align="center">Eventos</h1>
+
+    <p align="center">
+        <input id="boton" type="button" value="DALE"/>
+    </p>
+
+    <form action="xxx">
+        <p align="center">
+            <input type="submit" id="enviar" value="Enviar"/>
+        </p>
+    </form>
+
+</body>
+
+</html>

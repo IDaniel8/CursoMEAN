@@ -1,0 +1,117 @@
+<html>
+
+<head></head>
+
+<script type="text/javascript">
+
+//Array con cuatro arrays asociativos
+let personas = [ 
+    { "nombre"    : "Ringo",
+      "direccion" : "D1",
+      "telefono"  : "111" },
+    { "nombre"    : "Paul",
+      "direccion" : "D2",
+      "telefono"  : "222" },
+    { "nombre"    : "George",
+      "direccion" : "D3",
+      "telefono"  : "333" },
+    { "nombre"    : "John",
+      "direccion" : "D4",
+      "telefono"  : "444" }
+];
+
+for(let a=0; a<personas.length; a++){
+    //Persona es un objeto
+    let persona = personas[a];
+    //Podemos acceder a sus propiedades con el .
+    console.log(persona.nombre);
+}
+
+//Creamos un prototipo
+let Coche = {
+                "marca"     : null,
+                "modelo"    : null,
+                "matricula" : null
+            }
+
+//Creamos nuevas instancias a partir del prototipo
+coche1 = Object.create(Coche);
+coche1.marca  = "Talbot";
+coche1.modelo = "150";
+coche1.matricula = "M-1234-CD";
+coche2 = Object.create(Coche);
+coche2.marca  = "Citroën";
+coche2.modelo = "GSA";
+coche2.matricula = "M-1234-DD";
+
+console.log("coche1:"+coche1.marca+","+coche1.modelo);
+console.log("coche2:"+coche2.marca+","+coche2.modelo);
+
+//Podemos añadir funciones 'públicas'
+let Libro = { "titulo" : null,
+              "autor"  : null,
+              "imprimirConsola" : function(){
+                    console.log("Título:"+this.titulo+", autor:"+this.autor);
+              } 
+            }
+let libro1 = Object.create(Libro); 
+libro1.titulo = "La isla del tesoro";
+libro1.autor = "RLS";
+libro1.imprimirConsola();
+//Podemos usar cualquier objeto a la hora de invocar Object.create
+let libro2 = Object.create(libro1); //libro2 es identico a libro1 (pero otro objeto)
+libro2.titulo = "LA ISLA DEL TESORO" 
+libro2.imprimirConsola();
+
+//Composición de objetos
+let cliente = { "nombre" : "Chiquito de la Calzada" };
+let fra1 = { "codigo"  : "FAC-1",
+             "cliente" : cliente }; 
+let fra2 = Object.create(fra1);
+
+//Cada una de las dos facturas tienen su própio código
+//PERO estan compartiendo al mismo cliente
+fra2.codigo = "FAC-2";
+fra2.cliente.nombre = "H.M. Murdock"; //Cuidado que estamos cambiando el nombre del unico cliente que hay
+console.log("Fra1:"+fra1.codigo+", cliente:"+fra1.cliente.nombre);             
+console.log("Fra2:"+fra2.codigo+", cliente:"+fra2.cliente.nombre);             
+
+//Añadiendo funciones al prototipo despues de haberlo definido
+libro1.setDatos = function(titulo, autor){
+    this.titulo = titulo;
+    this.autor = autor;
+}
+//Todos los objetos ya creados dispondrán de la nueva función
+libro1.setDatos("Moby Dick", "Herman Melville");
+libro1.imprimirConsola();
+
+//'Herencia'
+let Persona = { "nombre" : null,
+                "imprimirConsola" : function(){
+                    console.log('Nombre:'+this.nombre);
+                } }; 
+
+//Cliente tiene inicialmente los mismos componentes que Persona                
+let Cliente = Object.create(Persona);
+//Añadimos propiedades
+Cliente.cuentaBancaria = null;
+//Añadimos funciones
+Cliente.ingrersar = function(cantidad){
+    console.log(this.nombre+" ingresando "+cantidad);
+}
+//Incluso 'sobreescribimos' funciones
+Cliente.imprimirConsola = function(){
+    console.log('Nombre:'+this.nombre+", cuentaBancaria:"+this.cuentaBancaria);
+}
+//Ya podemos usar Cliente como prototipo 
+cliente2 = Object.create(Cliente);
+
+</script>
+
+<body>
+
+    <h1>Más objetos</h1>
+
+</body>
+
+</html>

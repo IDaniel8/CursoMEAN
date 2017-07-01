@@ -1,0 +1,145 @@
+<html>
+
+<script type="text/javascript">
+
+//EL servidor puede validar de las siguientes maneras
+//-campo obligatorio : obligatorio
+//-longitud mínima   : minimo
+//-valor dentro de rango : login
+
+
+//La petición será asi:
+//GET validar?campo=campo&valor=valor&tipo=tipo
+
+//La respuesta será así:
+//[campo]|OK
+//[campo]|mensaje
+
+//Obligatorio
+//get /servicios/validar?campo=nombre&valor=XXX&tipo=obligatorio
+//nombre|OK
+//nombre|El campo es obligatorio
+
+//Minimo: (numero)
+//get /servicios/validar?campo=XXX&valor=XXX&tipo=minimo_10
+
+let xmlHttp = new XMLHttpRequest();
+
+function enviarPeticionAjax(parametros){
+
+    if( typeof parametros.url == 'undefined'){
+        alert('De que vas');
+        return;
+    } 
+    let url = parametros.url;
+
+    let metodo = "GET"
+    if( !typeof parametros.metodo == 'undefined' ){
+        metodo = parametros.metodo;
+    }
+    let asincrono = true;
+    if( !typeof parametros.asincrono == 'undefined' ){
+        asincrono = parametros.asincrono;
+    }
+
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open(metodo, url, asincrono);
+    xmlHttp.onreadystatechange = function(){
+        if( this.readyState == 4){
+            if( this.status == 200 ){
+                if( typeof parametros.callback != "undefined"){
+                    parametros.callback(this.responseText);
+                }
+            } else {
+                if( typeof parametros.error != "undefined"){
+                    parametros.error(this.status);
+                }
+            }
+        }
+    };
+    xmlHttp.send(null); //Aqui iria parametros.param
+
+}
+
+function validarCampo(campo, tipo){
+    let url = "http://localhost:8080/RESTeeeeeh/servicios/validar?"+
+              "campo="+campo.id+
+              "&valor="+campo.value+
+              "&tipo="+tipo;
+
+    enviarPeticionAjax( { 'metodo':'GET', 'url':url, 'callback':procesarRespuesta, 'error':error } );
+
+}
+
+function procesarRespuesta(respuesta){
+    console.log("Respuesta:"+respuesta);
+    let trozos = respuesta.split("|");
+    console.log(trozos);
+    let campo = trozos[0];
+    let mensaje = trozos[1];
+
+    let tdMensaje = document.getElementById("msj_"+campo);
+    if( mensaje == "OK"){
+        tdMensaje.innerHTML = "";
+    } else {
+        tdMensaje.innerHTML = mensaje;
+    }
+}
+
+function error(status){
+    alert("ZASCA:"+status);
+}
+
+window.onload = function(){
+
+    document.getElementById("nombre").onchange = function(){
+        validarCampo(this, "obligatorio");
+    }
+
+    document.getElementById("login").onchange = function(){
+        validarCampo(this, "login");
+    }
+
+    document.getElementById("altura").onchange = function(){
+        validarCampo(this, "minimo_0");
+    }
+
+}
+
+</script>
+
+<body>
+
+    <table>
+        <tr>
+            <td>Nombre</td>
+            <td>
+                <input type="text" id="nombre"/>
+            </td>
+            <td id="msj_nombre">
+            </td>
+        </tr>
+        <tr>
+            <td>Login</td>
+            <td>
+                <input type="text" id="login"/>
+            </td>
+            <td id="msj_login">
+            </td>
+        </tr>
+        <tr>
+            <td>Altura</td>
+            <td>
+                <input type="text" id="altura"/>
+            </td>
+            <td  id="msj_altura">
+            </td>
+        </tr>
+
+
+
+    </table>
+
+</body>
+
+</html>

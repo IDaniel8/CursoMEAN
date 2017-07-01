@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <title>Insert title here</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+</head>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+
+//Definimos un prototipo para la película/////////////////////////
+let Pelicula = { 'id'           : null,
+                 'titulo'       : null,
+                 'director'     : null,
+                 'genero'       : null,
+                 'fechaEstreno' : null }
+Pelicula.inicializar = function(id, titulo, director, genero, fechaEstreno){
+    this.id = id;
+    this.titulo = titulo;
+    this.director = director;
+    this.genero = genero;
+    this.fechaEstreno = fechaEstreno;
+}                
+//////////////////////////////////////////////////////////////////
+
+//Guardamos en esta variable el id de la película seleccionada
+let idPeliculaSel = null;
+
+function enviarPeticionListarPeliculas(){
+
+    console.log(arguments.length);
+    for(let a=0; a<arguments.length; a++){
+        console.log(arguments[a]);
+    }
+
+    /*
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.open("GET","servicios/peliculas",true);
+    xmlHttp.onreadystatechange = function(){
+        if(this.readyState == 4){
+            let json = this.responseText;            
+            //El eval es el mal
+            //let array = eval(json);
+            let array = JSON.parse(json);
+            rellenarTablaPeliculas(array);
+        }
+    }
+    xmlHttp.send(null); 
+    */
+
+    $.ajax( { 'url'     : 'servicios/peliculas', 
+              'success' : rellenarTablaPeliculas  } );    
+}
+
+function rellenarTablaPeliculas(peliculas){
+
+    let tabla = $("#tablaPeliculas");
+    tabla.html("");
+    for(let a=0; a<peliculas.length; a++){
+        let p = peliculas[a];
+        $("<tr id='pelicula_"+p.id+"' onclick='seleccionarPelicula(this.id.substring(9))'>"+
+                "<td>"+p.titulo+"</td>"+
+                "<td>"+p.director+"</td>"+
+                "<td>"+p.genero+"</td>"+
+                "<td>"+p.fechaEstreno+"</td>"+
+          "</tr>").appendTo(tabla);
+    }
+
+}
+
+function seleccionarPelicula(id){
+    idPeliculaSel = id;
+
+    $("#btnInsertar").prop("disabled",true);
+    $("#btnModificar").prop("disabled",false);
+    $("#btnBorrar").prop("disabled",false);
+
+    $.ajax( { 'url'     : 'servicios/peliculas/'+id,
+              'success' : rellenarFormularioPelicula,
+              'error'   : function(){ alert('ZASCA!')} } );
+}
+
+function rellenarFormularioPelicula(pelicula){
+    $("#titulo").val(pelicula.titulo);
+    $("#director").val(pelicula.director);
+    $("#genero").val(pelicula.genero);
+    $("#estreno").val(pelicula.fechaEstreno);
+}
+
+function insertarPelicula(){
+
+    let titulo = $("#titulo").val();
+    let director = $("#director").val();
+    let genero = $("#genero").val();
+    let estreno = $("#estreno").val();
+
+    //Podemos crear el JSON directamente...
+    var json = "{ 'titulo'       : '"+titulo+"',"+
+               "  'director'     : '"+director+"',"+
+               "  'genero'       : '"+genero+"',"+
+               "  'fechaEstreno' : '"+estreno+"' }";
+
+    //Podemos crear un objeto al vuelo
+    var pelicula = { 'titulo'       : titulo,
+                     'director'     : director,
+                     'genero'       : genero,
+                     'fechaEstreno' : estreno };
+    //Y transformarlo en JSON
+    var json = JSON.stringify(pelicula);
+
+    //Podemos definir un prototipo y utilizar sus funciones
+    var pelicula = Object.create(Pelicula);
+    pelicula.inicializar(null, titulo, director, genero, estreno);
+    var json = JSON.stringify(pelicula);
+
+    //Cuando la petición incluye algo en el body (POST o PUT)
+    //debemos indicar en la cabecera de la petición en que consiste
+    //con 'contentType' 
+    $.ajax( { 'type'        : 'post', 
+              'url'         : 'servicios/peliculas',
+              'success'     : enviarPeticionListarPeliculas,
+              'error'       : function(){ alert("ZASCA!") },
+              'contentType' : 'application/json; charset=utf-8',
+              'data'        : json               
+            } );
+}
+function modificarPelicula(){
+
+    let pelicula = Object.create(Pelicula);
+    pelicula.inicializar(idPeliculaSel,
+                         $("#titulo").val(),
+                         $("#director").val(),
+                         $("#genero").val(),
+                         $("#estreno").val());
+    let json = JSON.stringify(pelicula);
+
+    $.ajax( { 'type'        : 'put', 
+              'url'         : 'servicios/peliculas',
+              'success'     : enviarPeticionListarPeliculas,
+              'error'       : function(){ alert("ZASCA!") },
+              'contentType' : 'application/json; charset=utf-8',
+              'data'        : json               
+            } );
+}
+
+function borrarPelicula(){
+    console.log("Borrar:"+idPeliculaSel);
+    $.ajax( { 'type'        : 'delete', 
+              'url'         : 'servicios/peliculas/'+idPeliculaSel,
+              'success'     : enviarPeticionListarPeliculas,
+              'error'       : function(){ alert("ZASCA!") } } );
+}
+
+function vaciarFormularioPelicula(){
+
+    $("#btnInsertar").prop("disabled",false);
+    $("#btnModificar").prop("disabled",true);
+    $("#btnBorrar").prop("disabled",true);
+
+    idPeliculaSel = null;
+    $("#titulo").val("");
+    $("#director").val("");
+    $("#genero").val("");
+    $("#estreno").val("");    
+}
+
+$(function(){
+
+    $("#btnInsertar").click(insertarPelicula);
+    $("#btnModificar").click(modificarPelicula);
+    $("#btnBorrar").click(borrarPelicula);
+    $("#btnVaciar").click(vaciarFormularioPelicula);
+
+    $("#btnModificar").prop("disabled",true);
+    $("#btnBorrar").prop("disabled",true);
+
+    enviarPeticionListarPeliculas();
+
+});
+
+
+</script>
+
+<body>
+
+    <div class="page-header">
+        <h1>Base de datos de películas</h1> 
+    </div>
+
+    <div class="row">
+        <div class="col-xs-1"></div>  
+        <div class="text-center col-xs-10">  
+            <input type="button" id="btnInsertar"  class="btn btn-primary" value="Insertar"/>
+            <input type="button" id="btnModificar" class="btn btn-primary" value="Modificar"/>
+            <input type="button" id="btnBorrar"    class="btn btn-primary" value="Borrar"/>
+            <input type="button" id="btnVaciar"    class="btn btn-primary" value="Vaciar"/>
+        </div>
+        <div class="col-xs-1"></div>  
+    </div>
+
+    <br/>
+
+    <div class="row">
+        <div class="col-xs-1"></div>
+        <div class="col-xs-10 form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="titulo">Título</label>
+                <div class="col-xs-8">
+                    <input type="text" id="titulo" class="form-control" />
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="director">Director</label>
+                <div class="col-xs-8">
+                    <input type="text" id="director" class="form-control" />
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="genero">Genero</label>
+                <div class="col-xs-8">
+                    <input type="text" id="genero" class="form-control" />
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="estreno">Estreno</label>
+                <div class="col-xs-8">
+                    <input type="text" id="estreno" class="form-control" />
+                </div>
+            </div>  
+        <div class="col-xs-1"></div>        
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-1"></div>  
+        <div class="col-xs-10">  
+            <table class="table table-hover table-striped">
+                <thead>
+                    <th>Título</th>
+                    <th>Director</th>
+                    <th>Genero</th>
+                    <th>Estreno</th>
+                </thead>
+                <tbody id="tablaPeliculas"></tbody>
+            </table>
+        </div>
+        <div class="col-xs-1"></div>  
+    </div>
+
+    <div>
+        <h5>Este esperamos que sea el pie</h5> 
+    </div>
+
+</body>
+
+</hmtl>
+

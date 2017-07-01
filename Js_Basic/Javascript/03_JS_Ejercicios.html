@@ -1,0 +1,63 @@
+<html>
+
+<head>
+</head>
+
+<script type="text/javascript">
+
+function prueba(){
+    alert('HOLA');
+}
+
+//una funcion que reciba n numeros y devuelva la suma
+//una funcion que reciba n numeros y devuelva el mínimo
+//una funcion que devuelve si un numero es primo (clásico)
+
+function sumar(){
+    let  total = 0; 
+    for(let a=0; a<arguments.length; a++ ){
+        total = total + arguments[a];
+    }
+    return total;
+}
+
+function minimo(){
+    let  minimo = 10000000; //Buuuuuuuu 
+    for(let a=0; a<arguments.length; a++ ){
+        if(arguments[a] < minimo){
+            minimo = arguments[a];
+        }
+    }
+    return minimo;
+}
+
+function esPrimo(numero){
+
+    let esPrimo = true;
+
+    for(let a=2; a<numero; a++){
+        if( numero % a == 0){
+            esPrimo = false;
+            break;
+        }
+    }
+
+    return esPrimo;
+}
+
+console.log(sumar());
+console.log(minimo(100,200,3,4,5,6,7,8));
+console.log(esPrimo(14));
+
+
+
+
+</script>
+
+<body>
+
+    <h1>Ejercicios</h1>
+
+</body>
+
+</html>

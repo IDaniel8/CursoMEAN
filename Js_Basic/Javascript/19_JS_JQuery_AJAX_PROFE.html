@@ -1,0 +1,59 @@
+<html>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+
+//AJAX
+//Asynchronous Javascript XML
+
+function mostrarResultado(respuesta){
+    $("#resultado").html(respuesta);
+}
+
+function error(respuesta){
+    $("<h1><font color='red'>ERROR!</font></h1>").
+        appendTo($("#resultado"));
+}
+
+$(function(){
+    $("#btnBuscar").click(function(){
+        let nombre = $("#nombre").val();
+        $.ajax( { 'url'     : 'http://localhost:8080/REST/servicios/buscarCliente?nombre='+nombre,
+                  'success' : mostrarResultado,
+                  'error'   : error,
+                  'async'   : false } );
+    });
+
+    $("#btnBuscarA").click(function(){
+        let nombre = $("#nombreA").val();
+        $.ajax( { 'url'     : 'http://localhost:8080/REST/servicios/buscarCliente?nombre='+nombre,
+                  'success' : mostrarResultado,
+                  'error'   : error } );
+    });
+
+});
+
+</script>
+
+<body>
+
+    <h2 align="center">AJAX. Petición síncrona.</h2>
+    <p align="center">
+        Nombre
+        <input type="text" id="nombre"/>
+        <input type="button" id="btnBuscar" value="Buscar"/>
+    </p>
+
+    <hr/>
+
+    <h2 align="center">AJAX. Petición asíncrona.</h2>
+    <p align="center">
+        Nombre
+        <input type="text" id="nombreA"/>
+        <input type="button" id="btnBuscarA" value="Buscar"/>
+    </p>
+    <p align="center" id="resultado"></p>
+
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+<html>
+
+<head>
+</head>
+
+<script type="text/javascript">
+
+//Funciones de los objetos string
+//Una cadena de texto es un objeto que tiene propiedades y funciones
+var texto = "Esto es una cadena de caracteres";
+//Longitud de una cadena
+console.log(texto.length);
+//Algunas funciones
+console.log(texto.toUpperCase());
+console.log(texto.toLowerCase());
+//Cuidadin que las funciones de string no alteran el objeto sino que devuelven
+//otro con las modificaciones 
+console.log(texto); //Sigue teniendo elvalor original
+//Acceder a un caracter concreto 
+console.log(texto.charAt(3)); //El primer caracter es el cero
+console.log(texto[3]); //Lo mismo que charAt
+//Substrings
+//Si indicamos un índice que no existe: TJ
+console.log(texto.substring(4)); //A partir del caracter 4
+console.log(texto.substring(4, 10)); //Del 4 al 10
+//Index of
+console.log("a:"+texto.indexOf("a"));
+console.log("a:"+texto.lastIndexOf("a"));
+//Split
+var trozos = texto.split(" ");
+console.log(typeof trozos);
+console.log(trozos);
+
+</script>
+
+<body>
+
+    <h1>Cadenas de texto</h1>
+
+</body>
+
+</html>

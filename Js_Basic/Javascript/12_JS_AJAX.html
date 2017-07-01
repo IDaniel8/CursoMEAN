@@ -1,0 +1,107 @@
+<html>
+
+<script type="text/javascript">
+
+//AJAX
+//Asynchronous Javascript XML
+
+//Obtenemos una instancia de XMLHttpRequest
+let xmlHttp = new XMLHttpRequest();
+//Propiedades:
+//responseText
+//readyState
+//status
+//
+//Funciones:
+//open
+//send
+//onreadystatechange
+
+function enviarPeticionSincrona(){
+
+    //open(Método_HTTP, url, asincrono/sincrono)
+    let nombre = document.getElementById("nombre").value;
+    let url = "http://localhost:8080/REST/servicios/buscarCliente?nombre="+nombre;
+    xmlHttp.open("GET", url, false);
+    //Si la petición es GET o DELETE los parámetros van en la url
+    //Si es POST o PUT se envían como parámetro a la función 'send'
+    //Será un string con el formato 'param1=valor1&param2=valor2&param3=valor3'
+    xmlHttp.send(null);
+
+    let respuesta = xmlHttp.responseText;
+    alert("Respuesta:"+respuesta);
+}
+
+function enviarPeticionAsincrona(){
+
+    let nombre = document.getElementById("nombre").value;
+    let url = "http://localhost:8080/REST/servicios/buscarCliente?nombre="+nombre;
+    xmlHttp.open("GET", url, true);
+    xmlHttp.onreadystatechange = function(){        
+        //console.log("readyState:"+this.readyState);
+        //0: creado
+        //1: open
+        //2: enviado
+        //3: comienza a llegar la respuesta
+        //4: response complete   
+
+        if(this.readyState == 4){
+            if(this.status == 200){
+                let respuesta = this.responseText;
+                mostrarResultado(respuesta);
+            } else {
+                mostrarResultado("<h1><font color=red>ERROR</font><h1>")
+            }
+        } 
+    };
+    xmlHttp.send(null);
+
+    //Esto NO
+    //while(xmlHttp.readyState != 4){
+    //}
+    
+    //Esto ya no tiene sentido si la petición es asincrona:
+    //let respuesta = xmlHttp.responseText;
+    //console.log("Respuesta:"+respuesta);
+}
+
+function mostrarResultado(respuesta){
+    document.getElementById("resultado").innerHTML = respuesta;
+}
+
+window.onload = function(){
+
+    document.getElementById("btnBuscar").onclick = function(){
+        enviarPeticionSincrona();
+    }
+
+    document.getElementById("btnBuscarA").onclick = function(){
+        enviarPeticionAsincrona();
+    }
+
+}
+
+</script>
+
+<body>
+
+    <h2 align="center">AJAX. Petición síncrona.</h2>
+    <p align="center">
+        Nombre
+        <input type="text" id="nombre"/>
+        <input type="button" id="btnBuscar" value="Buscar"/>
+    </p>
+
+    <hr/>
+
+    <h2 align="center">AJAX. Petición asíncrona.</h2>
+    <p align="center">
+        Nombre
+        <input type="text" id="nombreA"/>
+        <input type="button" id="btnBuscarA" value="Buscar"/>
+    </p>
+    <p align="center" id="resultado"></p>
+
+</body>
+
+</html>

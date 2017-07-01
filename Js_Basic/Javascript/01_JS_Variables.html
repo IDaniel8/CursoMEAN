@@ -1,0 +1,82 @@
+<html>
+
+<head>
+
+</head>
+
+<script type="text/javascript">
+
+//alert("HOLA MUNDO");
+console.log("Primer ejemplo de javascript");
+
+//Variables
+//No estan tipadas
+
+//Tipos numericos, cadena de texto, booleanos, objetos
+numero = 1; //number
+numeroDecimal = 1.5;
+texto1 = "HOLA";
+texto2 = 'hola';
+//Booleanos
+activo = true;
+visitado = false;
+
+//datoZAS; Esto da error!
+
+//undefined: la variableno tiene absolutamente ningún valor
+var dato1; 
+//null: al menos es un valor. Es lo correcto si queremos declarar 
+//una variable y no conocemos aún su valor
+var dato2 = null; 
+
+console.log(dato1);
+console.log(dato2);
+
+//Comprobando si algo es un número
+var numero2 = 42;
+console.log("isNaN:"+isNaN(numero2));
+
+//Con typeOf podemos averiguar el tipoconcreto de una variable
+//undefined
+//number
+//string
+//boolean
+//object
+console.log( typeof numero );
+console.log( typeof texto1 );
+//Podemos usar el typeof en un if
+if( typeof dato1 == "undefined" ){
+    console.log("Dato1 es undefined");
+}
+
+//Algunas novedades de JS6
+
+//constantes
+const alturaMaxima = 50;
+//alturaMaxima = 75; Falla al ejecutar 
+console.log("AlturaMáxima:"+alturaMaxima);
+
+//Variables asociadas al bloque
+let otraVariable = "Otra variable";
+//Las variables definidas con let no pueden redefinirse
+var v1 = 1;
+var v1 = 2; //Y esto no Falla
+let v2 = 1;
+//let v2 = 2; //ZASCA
+
+</script>
+
+<body>
+
+    <h1>Ejemplo Javascript</h1>
+
+</body>
+
+<script type="text/javascript">
+    //alert("FIN");
+</script>
+
+</html>
+
+
+

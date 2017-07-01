@@ -1,0 +1,280 @@
+<html>
+
+<head></head>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+
+//Si la funcion $ recibe el objeto document lo enriquece aportandole
+//nuevas funciones como ready.
+//ready() se ejecutaANTES que window.onload
+/*
+$(document).ready = function(){  
+    pruebas();
+};
+*/
+
+//Si a la funcion $ lepasamos una funcion como parámetro esta se asigna
+//a document.ready
+$(function(){
+    pruebas();
+});
+
+
+function pruebas(){
+
+    //Selectores: sirven para localizar nodos en el árbol DOM
+
+    let todosLosNodos = $("*"); //Devuelve todos los nodos
+    console.log("Todos:"+todosLosNodos);
+
+    /////////////////
+    //Buscar por ID//
+    /////////////////
+    //Si le pasamos un parámetro que comienza por # busca por id
+    console.log($("#div1"));
+    //Aunque el selector solo encuentre un nodo siempre devuelve un array
+    console.log("=============================================");
+    console.log($("#txt1"));        //Objeto jQuery
+    console.log($("#txt1")[0]);     //Nodo
+    console.log($("#txt1").get(0)); //Hace lo mismo
+    let nodo1 = document.getElementById("txt1");
+    let nodo2 = $("#txt1")[0]; //Totalmente equivalente a la lína anterior
+    nodo1.value = "Viernes";
+
+    ///////////////////////
+    //Buscar por etiqueta//
+    ///////////////////////
+    //Pasamos por parámetro el nombre de la etiqueta
+    $("a") //Devuelve un array con todos los enlaces del documento
+    $("input") //Devuelve todos los input que haya o haiga en el documento
+    //El objeto jQuery que devuelve la funcion $ es muy similar a un array
+    //pero cuenta con muchas más funciones y propiedades
+    let nodos = $("input");
+    for(let a=1; a<nodos.length; a++){
+        nodos[a].value = a+1;
+    }
+
+    $("input").val("AAA"); //A cada elemento del array se le aplica la funcion 
+                           //val (que asigna el value).
+    //El equivalente en JS a lo anterior sería
+    /*let nodosInput = document.getElementsByTagName("input");
+    nodosInput.forEach(function(elem){
+        elem.value = "AAA";
+    });*/      
+
+    /////////////////////
+    //Buscar por estilo//
+    /////////////////////
+    //Si el selector que enviamosa'$' empieza por el '.' se buscaran
+    //nodos que tengan ese estilo
+    $(".titulo").css("color","lightGreen"); 
+    //Equivalente a:
+    //let titulo = document.getElementsByClassName("titulo");
+    //titulo.style = "color:lightGreen"
+
+    ///////////////////////
+    //Buscar por atributo//
+    ///////////////////////
+    $("[dato]").css("border","3px solid green"); //Busca nodos que tengan el atributo 'dato'
+    $("[type=button]").val("Botón");//Nodos con un atributo cuyo valor es X
+    $("[dato!=1000]"); //Valor del atributo distinto de
+    $("[dato*=111]");  //El valor del atributo contiene '111'
+    $("[dato$=222]");  //El valor termina por '222'
+    $("[dato^=333]");  //El valor comienza por '333'
+    $("[dato~=444]");  //El valor contiene la palabra 444. Es decir: contiene ' 444 '
+
+    //Lista de las opciones seleccionadas en todos
+    //los desplegables de la página
+    let opciones = $("select option:selected"); 
+    for(let a=0; a<opciones.length; a++){
+        console.log("Opcion:"+opciones[a].value);                                 
+    }
+
+    //Idem con los checkbox
+    $("input:checked") //Listaconlos checkbox y radiobuttons que estén seleccionados
+    $("input [type=checkbox]:checked");
+
+    ///////////////////////////
+    //Concatenando selectores//
+    ///////////////////////////
+
+    //Si la coma está dentro del selector se suman
+    $("[type=button], [type=text]"); //la suma de los dos selectores
+    //Si queremos que se cumplan todos los selectores los ponemos
+    //junticos
+    $("input[movida]").css("border","3px solid red"); //los input que tienen el atributo 'movida'
+
+    //Selectores de hijos, nietos, biznietos, tataranietos...
+    //Quiero los nodos input que son hijos, nietos, biznietos... del nodo cuyo id es 'div3' 
+    $("#div3 input").css("border","3px solid blue");
+    
+    //Selectores de hijos directos
+    $("#div3 > input").css("border","3px solid lightblue");
+
+    //Otra sintaxis
+    $("input","#div3"); //Nótese la inversión del orden
+
+    //Búsqueda de nodos de TEXTO
+    $("h1:contains('JQuery gran reserva')").css("background-color","orange");
+
+    //Trabajando con los índices del array de nodos que devuelve un selector
+    $("#tabla")[3];     //El cuarto <tr>, pero nos han dado todos
+    $("#tabla").get(3); //idem
+    //
+    $("#tabla tr:even").css("background-color","yellow");
+    $("#tabla tr:odd").css("background-color","#FABADA");
+    $("#tabla tr:eq(4)").css("background-color","blue"); 
+    $("#tabla tr:lt(2)").css("background-color","green");
+    $("#tabla tr:gt(8)").css("background-color","red");
+
+    //nodos de tipo input que estén desabilitados
+    $("input:disabled");
+    //nodos que no tengan hijos
+    $("div:empty");
+
+}
+
+</script>
+
+<body>
+
+    <h1 class="titulo">JQuery gran reserva</h1>
+
+    <hr/>
+
+    <div id="form1">
+        <input type="text" id="txt1"/>
+        <input type="text" id="txt2" movida="movida"/>
+        <input type="text" id="txt3"/>
+        <input type="text" id="txt4" movida="movida"/>
+    </div>
+
+    <hr/>
+
+    <did id="form2">
+        <input type="text" id="txt5" dato="101"/>
+        <input type="text" id="txt6" movida="movida"/>
+        <input type="text" id="txt7"/>
+        <input type="text" id="txt8" movida="movida"/>
+        <br/>
+        <input type="button" id="btn1" value="Boton 1"/>
+        <input type="button" id="btn2" value="Boton 2"/>
+        <input type="button" id="btn3" value="Boton 3"/>
+        <input type="button" id="btn4" value="Boton 4"/>
+    </div>
+
+    <hr/>
+
+    <div id="div1"></div>  
+
+    <hr/>
+
+    <div id="div2">
+    
+        <select id="ciudad">
+            <option>Getafe</option>
+            <option>Madrid</option>
+            <option>Salamanca</option>
+            <option>Santa Pola</option>
+        </select>
+
+        <select id="Colores">
+            <option>Rojo</option>
+            <option>Verde</option>
+            <option>Azul</option>
+        </select>
+        
+        <input type="checkbox" id="chk1"/>
+        <input type="checkbox" id="chk2"/>
+        <input type="checkbox" id="chk3"/>
+        <input type="checkbox" id="chk4"/>
+        <input type="checkbox" id="chk5"/>
+        <input type="checkbox" id="chk6"/>
+
+    </div>  
+
+    <hr/>
+
+    <div id="div3">
+        <input type="text" id="txt9"/>
+        <input type="text" id="txt10" movida="movida"/>
+        <div id="div4">
+            <input type="text" id="txt11"/>
+            <input type="text" id="txt12" movida="movida"/>
+        </div>
+    </div>   
+
+    <hr>
+
+    <div id="5">
+        <table border="1" width="400px">
+            <tr>
+                <th>A</th>
+                <th>B</th>
+                <th>C</th>
+            </tr>
+            <tbody id="tabla">
+                <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>6</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>8</td>
+                    <td>9</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>11</td>
+                    <td>12</td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>14</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>17</td>
+                    <td>18</td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>20</td>
+                    <td>21</td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>23</td>
+                    <td>24</td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>26</td>
+                    <td>27</td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>29</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td>31</td>
+                    <td>32</td>
+                    <td>33</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div> 
+
+</body>
+
+</html>

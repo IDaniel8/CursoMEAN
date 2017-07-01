@@ -1,0 +1,116 @@
+<html>
+
+<head></head>
+
+<script type="text/javascript">
+
+function documentWrite(){
+    document.write("<h1>Pues muy bien</h1>");
+    document.write("<h1>Pues si</h1>");
+}
+
+function _innerHTML(){
+    let div = document.getElementById("div1");
+    div.innerHTML = "<h2 align='center'>HOLA</h2>";
+}
+
+function vaciarConInnerHTML(){
+    document.getElementById("div1").innerHTML = "";
+}
+
+function crearNodos(){
+
+    //Creando nodos
+    let tabla = document.createElement("table");
+    let tr    = document.createElement("tr");
+    let td    = document.createElement("td");
+    let txt   = document.createTextNode("texto");
+    
+    //Añadiendo atributos a los nodos
+    //Método grán fajador:
+    let att = document.createAttribute("align");
+    att.value = "center";
+    tabla.setAttributeNode(att);
+    //Método fino estilista:
+    tabla.setAttribute("border","1");
+
+    //Construyendo la jerarquia de los nodos
+    td.appendChild(txt);
+    tr.appendChild(td);
+    tabla.appendChild(tr);
+
+    let div = document.getElementById("div2");
+    div.appendChild(tabla);
+
+}
+
+function vaciarSelect(){
+
+    let nodo = document.getElementById("ciudades");
+
+    //Podemos hacerlo así
+    //nodo.innerHTML = "";
+
+    //Cada nodo tiene un array de hijos 
+    //Es una propiedad
+    let hijos = nodo.childNodes;
+    let tam = hijos.length
+    for(let a=0; a<tam; a++){
+        let hijo = hijos[0]; 
+        //Podemos decirle al padre que elimine al hijo
+        nodo.removeChild(hijo);
+    }
+
+    //Tambien podemos acceder al nodo padre de cualquier nodo
+    //nodo.parentNode.remove(nodo); //Esto eliminaría al select
+
+    //Y tambien el nodo se sasta y se sobra para eliminarse
+    //nodo.remove();
+
+}
+
+</script>
+
+<body>
+
+    <marquee>
+        <h1>
+            <font color="lightGreen">
+                DHTML
+            </font>
+        </h1>
+    </marquee>
+
+    <hr/>
+
+    <p align="center">
+        <input type="button" value="Document.write" onclick="documentWrite()"/>
+        <input type="button" value="innerHTML" onclick="_innerHTML()"/>
+        <input type="button" value="Vaciar innerHTML" onclick="vaciarConInnerHTML()"/>
+        <input type="button" value="Crear nodos" onclick="crearNodos()"/>
+        <input type="button" value="Vaciar select" onclick="vaciarSelect()"/>
+    </p>
+
+    <hr/>
+
+    <div id="div1"></div>
+
+    <hr/>
+
+    <div id="div2"></div>
+
+    <hr/>
+
+    <p align="center">
+        <select id="ciudades">
+            <option value="Getafe">Getafe</option>
+            <option value="Madrid">Madrid</option>
+            <option value="Salamanca">Salamanca</option>
+            <option value="Santa Pola">Santa Pola</option>
+            <option value="Chinchón">Chinchón</option>
+        </select>
+    </p>
+
+</body>
+
+</html>
