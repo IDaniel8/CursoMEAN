@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AngularJS_1</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="../favicon-icon/favicon.ico" rel="icon" type="image/x-icon" />
+        <script src="./bower_components/angular/angular.min.js"></script>
+        <script src="./script/app.js"></script>
+        <script src="./script/controller/indexCtrl.js"></script>
+    </head>
+    <body ng-app="ejemploApp">
+        
+        <div ng-controller="indexCtrl">
+            <span>{{ nombre }}</span>
+            <button ng-click="saludar()">Saludar</button>
+            <button ng-click="contar()">Contar</button>
+        </div>
+
+    </body>
+</html>
