@@ -11,10 +11,14 @@
     </head>
     <body ng-app="ejemploApp">
         
-        <div ng-controller="indexCtrl">
+        <!--<div ng-controller="scopeCtrl">
             <span>{{ nombre }}</span>
             <button ng-click="saludar()">Saludar</button>
             <button ng-click="contar()">Contar</button>
+        </div>-->
+
+        <div ng-controller="watchCtrl">
+            <input type="checkbox" ng-model="valorCheckbox"/>
         </div>
 
     </body>
