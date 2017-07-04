@@ -1,0 +1,26 @@
+{
+  "name": "angular_pj",
+  "homepage": "https://github.com/IDaniel8/MEAN_stack_files",
+  "authors": [
+    "IDaniel"
+  ],
+  "description": "module testin",
+  "main": "index.html",
+  "keywords": [
+    "ANGJS"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "angularjs#^1.6.5",
+    "angular-route-segment": "^1.5.1",
+    "bootstrap": "^3.3.7",
+    "angular-route": "^1.6.5"
+  }
+}
