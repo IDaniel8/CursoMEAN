@@ -4,7 +4,7 @@
         <title>AngularJS_1</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="../favicon-icon/favicon.ico" rel="icon" type="image/x-icon" />
+        <link href="https://cdn2.iconfinder.com/data/icons/nodejs-1/256/nodejs-256.png" rel="icon" type="image/x-icon" />
         <script src="./bower_components/angular/angular.min.js"></script>
         <script src="./script/app.js"></script>
         <script src="./script/controller/indexCtrl.js"></script>
@@ -12,14 +12,24 @@
     <body ng-app="ejemploApp">
         
         <!--<div ng-controller="scopeCtrl">
+            Escribe algo ==> <input type="text" ng-model="nombre">
             <span>{{ nombre }}</span>
+            <br>
             <button ng-click="saludar()">Saludar</button>
             <button ng-click="contar()">Contar</button>
-        </div>-->
-
-        <div ng-controller="watchCtrl">
-            <input type="checkbox" ng-model="valorCheckbox"/>
         </div>
+        <br>-->
+        <!--<div ng-controller="watchCtrl">
+            Pincha ==> <input type="checkbox" ng-model="valorCheckbox"/>
+        </div>
+        <br>-->
+        <div ng-controller="controladorA">
+            <button ng-click="haciaAbajo()">broadcast</button>
+            <div ng-controller="controladorB">
+                <button ng-click="haciaArriba()">emit</button>
+            </div>
+        </div>
+
 
     </body>
 </html>

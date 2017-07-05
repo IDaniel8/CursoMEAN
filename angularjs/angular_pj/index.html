@@ -5,13 +5,30 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="./images/favicon.ico" rel="icon" type="image/x-icon" />
+        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
+    </head>
+    <body ng-app="peliSeriesApp">
+
+        <div class="container">
+            <header>
+                <h1>Peliculas y Series</h1>
+            </header>    
+            <nav ng-controller="navCtrl">
+                <ul class="nav nav-tabs">
+                    <li ng-class="{ 'active':rutaEsPeliculas() }"><a href="#/peliculas">Peliculas</a></li>
+                    <li ng-class="{ 'active':rutaEsSeries() }"><a href="#/series">Series</a></li>
+                </ul>
+            </nav>
+            <section app-view-segment='0'></section>
+        </div>
+        
+        
         <script src="./bower_components/angular/angular.min.js"></script>
         <script src="./bower_components/angular-route/angular-route.min.js"></script>
         <script src="./bower_components/angular-route-segment/build/angular-route-segment.js"></script>
         <script src="./scripts/app.js"></script>
-        <link rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.min.css">
-    </head>
-    <body ng-app="peliSeriesApp">
-    
+        <script src="./scripts/controllers/peliculasCtrl.js"></script>
+        <script src="./scripts/controllers/seriesCtrl.js"></script>
+        <script src="./scripts/controllers/navCtrl.js"></script>
     </body>
 </html>
